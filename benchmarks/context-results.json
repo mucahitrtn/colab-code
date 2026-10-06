@@ -1,0 +1,47 @@
+[
+  {
+    "repeats": 8000,
+    "seconds": 1.737,
+    "usage": {
+      "prompt_tokens": 8039,
+      "total_tokens": 8048,
+      "completion_tokens": 9,
+      "prompt_tokens_details": null,
+      "completion_tokens_details": {
+        "reasoning_tokens": 0
+      }
+    },
+    "content": "CTX_PILOT_7429",
+    "retrieved": true
+  },
+  {
+    "repeats": 16000,
+    "seconds": 1.855,
+    "usage": {
+      "prompt_tokens": 16039,
+      "total_tokens": 16048,
+      "completion_tokens": 9,
+      "prompt_tokens_details": null,
+      "completion_tokens_details": {
+        "reasoning_tokens": 0
+      }
+    },
+    "content": "CTX_PILOT_7429",
+    "retrieved": true
+  },
+  {
+    "repeats": 32000,
+    "seconds": 3.466,
+    "usage": {
+      "prompt_tokens": 32039,
+      "total_tokens": 32048,
+      "completion_tokens": 9,
+      "prompt_tokens_details": null,
+      "completion_tokens_details": {
+        "reasoning_tokens": 0
+      }
+    },
+    "content": "CTX_PILOT_7429",
+    "retrieved": true
+  }
+]

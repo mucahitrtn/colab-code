@@ -1,0 +1,30 @@
+{
+  "models": [
+    "Qwen/Qwen3.8-27B"
+  ],
+  "auth": "unauthenticated request rejected (401)",
+  "generation": {
+    "content": "323",
+    "seconds": 0.314,
+    "usage": {
+      "prompt_tokens": 28,
+      "total_tokens": 32,
+      "completion_tokens": 4,
+      "prompt_tokens_details": null,
+      "completion_tokens_details": {
+        "reasoning_tokens": 0
+      }
+    }
+  },
+  "reasoning_separation": {
+    "reasoning_chars": 114,
+    "content": "\n\n5"
+  },
+  "streaming": "passed",
+  "tool_round_trip": {
+    "arguments": {
+      "path": "config.json"
+    },
+    "content": "The `project_name` from `config.json` is **colab-bf16-pilot-7429**."
+  }
+}

@@ -1,0 +1,14 @@
+.venv/
+.env
+.env.*
+!.env.example
+.runtime/
+__pycache__/
+*.pyc
+node_modules/
+*.log
+.DS_Store
+# Local planning, unrelated projects and account-specific measurements.
+/PLAN.md
+/calculator/
+/benchmarks/session-results.json

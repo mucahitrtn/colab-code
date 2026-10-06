@@ -1,0 +1,21 @@
+{
+  "agent": "Cline CLI 3.0.68",
+  "model": "Qwen/Qwen3.8-27B",
+  "precision": "BF16",
+  "workspace": "benchmarks/agent_fixture",
+  "baseline_tests": {
+    "passed": 2,
+    "failed": 3
+  },
+  "final_tests": {
+    "passed": 5,
+    "failed": 0
+  },
+  "observed_tools": [
+    "read_files",
+    "editor",
+    "run_commands"
+  ],
+  "independent_verification": "python3 -m unittest -v: 5 passed",
+  "limitation": "One small pilot task; no general benchmark conclusion."
+}

@@ -1,0 +1,24 @@
+{
+  "session": "qwen38-bf16",
+  "gpu": "NVIDIA RTX PRO 6000 Blackwell Server Edition",
+  "gpu_memory_mib": 97887,
+  "compute_capability": [
+    12,
+    0
+  ],
+  "bf16_supported": true,
+  "model": "Qwen/Qwen3.8-27B",
+  "dtype": "bfloat16",
+  "vllm_version": "0.31.0",
+  "transformers_constraint": ">=5.10.4,<5.18.0",
+  "max_model_len": 32768,
+  "max_num_seqs": 1,
+  "gpu_memory_utilization": 0.85,
+  "remote_root": "/content/qwen38-bf16",
+  "local_port": 8000,
+  "remote_port": 8000,
+  "transformers_version": "5.17.0",
+  "torch_version": "2.13.0",
+  "model_revision": "1d4bf0f2ff6012fd82039f2fa52739d0dd7c60c0",
+  "model_loading_gib": 50.22
+}
