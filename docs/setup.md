@@ -112,3 +112,20 @@ The original pilot deliberately capped vLLM at 32,768 tokens. The pinned model c
 The terminal wrapper reads `max_model_len` from `/v1/models` on every launch and sets Cline's input budget to that limit minus 8,192 output tokens. This avoids the generic provider's 128,000-token default being larger than a 32K server. Restart the local agent to apply changed settings. Existing conversations can still exceed any finite context window; large file/tool results and token estimation can also require a new conversation.
 
 `colab/start_server.py --max-model-len N` accepts 16,384 through 262,144 tokens when executed as a file. When using `colab exec -f` or the stdin SSH helper, edit the launcher's default before sending it. Changing a running server's limit requires stopping and restarting its vLLM process; editing a file alone does not change the live API.
+
+### Change context from your terminal
+
+With the SSH tunnel open:
+
+```bash
+./qwen context           # read current server/input/output budgets
+./qwen context 65536     # select 64K
+./qwen context 131072    # select 128K
+./qwen context 48000     # custom limits work too
+```
+
+Stop all agent clients first. The command checks the model's native limit on the runtime, refuses to stop a server with active or queued requests, verifies the server PID, archives its log, and restarts it using the selected value. It waits up to 180 seconds for the API to advertise the new limit. The idle check is a snapshot, not a lock: keep clients stopped until the command finishes.
+
+If the server is already using the requested value, the command does not restart it. If a previous startup failed and its process has exited, you can retry a smaller value. If a live process is unresponsive, the command refuses to stop it without determining its request state; inspect runtime logs. This tool configures the current runtime, not future fresh allocations, which use the launcher's default.
+
+Then launch `./qwen` again so the agent reads the new budgets. The 8,192-token output reservation is maintained. Larger contexts still need model-backed validation; the current recorded long-context pilot reaches 32K only.

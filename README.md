@@ -80,11 +80,23 @@ These are integration checks and **one small coding task**, not a coding leaderb
 | `./qwen tunnel` | Keep the authenticated API tunnel open |
 | `./qwen sync-key` | Fetch the runtime API key without printing it |
 | `./qwen smoke` | Check the live API; writes a local result report |
+| `./qwen context` | Show the live server and agent context budgets |
+| `./qwen context 65536` | Restart an idle server with a chosen context limit |
 | `./qwen` | Open interactive terminal chat |
 | `./qwen 'your task'` | Run one coding task; default timeout 180 seconds |
 | `./qwen --timeout 0 'your task'` | Run a task without the wrapper timeout |
 
 The native Cline VS Code panel can use the same endpoint; it needs separate provider settings. Our pilot tested the terminal CLI. See [editor integration](docs/setup.md#vs-code-panel-optional).
+
+## Choose your context
+
+```bash
+./qwen context          # inspect live limits
+./qwen context 65536    # 64K
+./qwen context 131072   # 128K
+```
+
+Stop local agent clients before changing the limit. The command refuses to interrupt active or queued requests, restarts vLLM, and waits for the new limit. Values from 16,384 to the model's native 262,144 tokens are accepted; actual startup capacity depends on GPU memory. Cline reads the new budget on its next launch. This is a configurable restart, not live hot reloading.
 
 ## Know before you run
 

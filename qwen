@@ -6,12 +6,14 @@ import os
 import sys
 
 root = Path(__file__).resolve().parent
+if len(sys.argv) >= 2 and sys.argv[1] == 'context':
+    os.execv(sys.executable, [sys.executable, str(root / 'client/context.py'), *sys.argv[2:]])
 utilities = {'setup': 'scripts/setup.py', 'tunnel': 'client/tunnel.py',
              'sync-key': 'scripts/sync_key.py', 'smoke': 'client/smoke_test.py'}
 if len(sys.argv) == 2 and sys.argv[1] in utilities:
     os.execv(sys.executable, [sys.executable, str(root / utilities[sys.argv[1]])])
 parser = argparse.ArgumentParser(description='Colab Code: local tools, GPU inference. No prompt opens terminal chat.',
-                                 epilog='Utilities: ./qwen setup | tunnel | sync-key | smoke')
+                                 epilog='Utilities: ./qwen setup | tunnel | sync-key | smoke | context [tokens]')
 parser.add_argument('prompt', nargs='?', help='A coding task; omit for interactive chat.')
 parser.add_argument('--cwd', type=Path, default=Path.cwd(), help='Project directory (default: current directory).')
 parser.add_argument('--timeout', type=int, help='Seconds; 0 means unlimited. Chat defaults to unlimited, tasks to 180.')

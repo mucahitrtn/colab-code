@@ -2,6 +2,7 @@
 
 The current release is a tested single-model recipe and a small terminal wrapper.
 
+- [x] Add a context selection command with idle-server restart and agent budget alignment.
 - [ ] Add a single lifecycle command for allocation, readiness checks, and tunnel management.
 - [ ] Validate additional GPU configurations with memory and billing observations.
 - [ ] Add a provider adapter for explicit Qwen thinking controls in Cline.
