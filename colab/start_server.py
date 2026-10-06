@@ -1,10 +1,16 @@
 """Start the authenticated model API on the runtime's loopback interface."""
 from pathlib import Path
+import argparse
 import json
 import os
 import secrets
 import subprocess
 
+parser = argparse.ArgumentParser()
+parser.add_argument('--max-model-len', type=int, default=131072)
+options = parser.parse_args()
+if not 16384 <= options.max_model_len <= 262144:
+    parser.error('--max-model-len must be between 16384 and 262144.')
 root = Path('/content/qwen38-bf16')
 status = json.loads((root / 'setup-status.json').read_text())
 if status['stage'] != 'ready':
@@ -31,7 +37,7 @@ args = [
     str(root / 'venv/bin/vllm'), 'serve', str(root / 'model'),
     '--served-model-name', 'Qwen/Qwen3.8-27B',
     '--host', '127.0.0.1', '--port', '8000',
-    '--dtype', 'bfloat16', '--max-model-len', '32768',
+    '--dtype', 'bfloat16', '--max-model-len', str(options.max_model_len),
     '--max-num-seqs', '1', '--gpu-memory-utilization', '0.85',
     '--language-model-only', '--reasoning-parser', 'qwen3',
     '--enable-auto-tool-choice', '--tool-call-parser', 'qwen3_xml',

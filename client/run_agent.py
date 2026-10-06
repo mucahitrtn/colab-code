@@ -4,6 +4,7 @@ import argparse
 import json
 import os
 import subprocess
+from model_limits import fetch_model_budgets
 
 root = Path(__file__).resolve().parents[1]
 parser = argparse.ArgumentParser()
@@ -24,7 +25,12 @@ path = state / 'settings/providers.json'
 if not path.exists():
     raise SystemExit('Configure the isolated CLI provider first; see README.md.')
 data = json.loads(path.read_text())
-data['providers']['openai-compatible']['settings']['apiKey'] = (root / '.runtime/api-key').read_text().strip()
+settings = data['providers']['openai-compatible']['settings']
+settings['apiKey'] = (root / '.runtime/api-key').read_text().strip()
+try:
+    settings.update(fetch_model_budgets(settings['baseUrl'], settings['apiKey'], settings['model']))
+except Exception as exc:
+    raise SystemExit(f'Could not read live model limits: {exc}. Check the server and SSH tunnel.') from exc
 path.write_text(json.dumps(data, indent=2))
 path.chmod(0o600)
 env = os.environ.copy()

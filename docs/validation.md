@@ -23,6 +23,10 @@ python3 -m unittest -v
 
 This does not establish long-repository reasoning, coding accuracy, sustained throughput, or a model ranking. The recorded timings have tiny output lengths and should not be advertised as general generation speed. No Claude Code comparison was performed.
 
+## Context-budget correction
+
+After an agent request exceeded the original 32,768-token server limit, the wrapper was changed to read the live `/v1/models` limit and reserve 8,192 output tokens. The launcher default was raised to 131,072. The historical reports above retain their original 32K configuration and do not validate the new maximum.
+
 ## CI scope
 
 GitHub Actions checks Python syntax, CLI help/argument handling, and the fixed fixture tests. It does not allocate a Colab GPU or run model inference. Contributions claiming support for another GPU should include their exact settings and actual integration results.

@@ -89,7 +89,7 @@ The native Cline VS Code panel can use the same endpoint; it needs separate prov
 ## Know before you run
 
 - Colab GPU availability, runtime duration, and compute-unit rates vary. **Closing the tunnel does not stop the GPU session.** Use `.venv/bin/colab stop -s qwen38-bf16` when finished.
-- This recipe serves text/code with a 32,768-token context and one concurrent sequence. It does not enable image input.
+- The server launcher now defaults to a 131,072-token context and one concurrent sequence. The original recorded pilot used 32,768 tokens. The CLI reads the live server limit and reserves 8,192 tokens for output. It does not enable image input.
 - Cline's generic-provider `--thinking none` did not disable Qwen thinking in our pilot. Direct API requests can use `chat_template_kwargs: {"enable_thinking": false}`.
 - A fresh runtime may require downloading the ~55.6 GB checkpoint again. This is a tested recipe, with further automation on the [roadmap](docs/roadmap.md).
 

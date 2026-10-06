@@ -38,7 +38,7 @@ Bootstrap runs in the background. Repeat the progress command until `stage` is `
 .venv/bin/colab exec -s qwen38-bf16 -f colab/progress.py --timeout 30
 ```
 
-Server startup is also asynchronous. Wait for the log to show that the API is ready. Settings: BF16, 32,768 context, one concurrent sequence, 85% GPU memory target, text-only, Qwen reasoning and tool parsers. The server binds to `127.0.0.1:8000` and creates its API key privately.
+Server startup is also asynchronous. Wait for the log to show that the API is ready. Settings: BF16, 131,072 context, one concurrent sequence, 85% GPU memory target, text-only, Qwen reasoning and tool parsers. The server binds to `127.0.0.1:8000` and creates its API key privately.
 
 ## 4. Open the tunnel
 
@@ -82,7 +82,8 @@ Install Cline and choose **OpenAI Compatible**:
 | Base URL | `http://127.0.0.1:8000/v1` |
 | Model | `Qwen/Qwen3.8-27B` |
 | API key | Value stored privately in `.runtime/api-key` |
-| Context window | `32768` |
+| Input context budget | `122880` for the 131,072-token server |
+| Maximum output | `8192` |
 | Image support | Disabled for this server |
 
 The panel configuration is separate from the isolated CLI state. The terminal CLI was tested; panel operation is not part of the recorded pilot. See [Cline's provider guide](https://docs.cline.bot/provider-config/openai-compatible).
@@ -103,3 +104,11 @@ Colab runtimes are ephemeral. `/content` files can disappear after termination. 
 - **Host key changed after replacing the runtime:** verify that the session is the new runtime, then remove the old alias with `ssh-keygen -R qwen38-bf16 -f .runtime/known_hosts` and reopen the tunnel.
 - **GPU out of memory:** this recipe is validated only on the documented 96 GB GPU. Context/KV cache consume memory beyond the ~50.22 GiB weights; choose new settings deliberately and record them.
 - **Windows:** use WSL and validate Colab CLI connectivity there; native Windows has not been tested.
+
+## Context limits
+
+The original pilot deliberately capped vLLM at 32,768 tokens. The pinned model configuration has `max_position_embeddings: 262144`; this is a model capability, not a guarantee of GPU capacity or coding quality at that length. The launcher now defaults to 131,072. The original hardware log reported a 414,378-token KV pool at 32K; a new startup and live test are still required to validate a larger setting.
+
+The terminal wrapper reads `max_model_len` from `/v1/models` on every launch and sets Cline's input budget to that limit minus 8,192 output tokens. This avoids the generic provider's 128,000-token default being larger than a 32K server. Restart the local agent to apply changed settings. Existing conversations can still exceed any finite context window; large file/tool results and token estimation can also require a new conversation.
+
+`colab/start_server.py --max-model-len N` accepts 16,384 through 262,144 tokens when executed as a file. When using `colab exec -f` or the stdin SSH helper, edit the launcher's default before sending it. Changing a running server's limit requires stopping and restarting its vLLM process; editing a file alone does not change the live API.
