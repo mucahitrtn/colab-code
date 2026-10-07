@@ -2,9 +2,9 @@
 
 ![Colab Code — Your laptop. A Colab GPU. Your coding agent.](docs/assets/banner.svg)
 
-# Turn your Colab GPU into a coding agent.
+# Your own coding agent. Powered by your Colab GPU.
 
-**Keep your editor. Bring your own model. Put your GPU credits to work.**
+**Self-host the model. Code in your local repo. Keep building.**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-14b8a6.svg)](LICENSE)
 [![Checks](https://github.com/mucahitrtn/colab-code/actions/workflows/checks.yml/badge.svg)](https://github.com/mucahitrtn/colab-code/actions/workflows/checks.yml)
@@ -12,9 +12,25 @@
 
 An open-source recipe for running **Qwen3.8-27B in BF16 on a Colab GPU**, with a **Cline coding agent in your local terminal**. Read files, edit code, and run tests in the project already open in VS Code.
 
+**No project-imposed message quota. Your GPU runtime is the budget.** Keep asking it to build, fix, and iterate while your Colab session has resources available. Inference uses your Colab compute credits rather than a hosted model API's per-token allowance.
+
 [Get started](docs/setup.md) · [See the evidence](docs/validation.md) · [Contribute](CONTRIBUTING.md) · [Roadmap](docs/roadmap.md)
 
 </div>
+
+## Describe it. Let the agent work in your repo.
+
+Turn an idea into files you can open, run, and change. Ask the agent to scaffold an app, investigate a failing test, or explain unfamiliar code—then review the changes in your usual editor.
+
+```bash
+./qwen --timeout 0 'Build a Streamlit todo app with add, complete, and delete actions.'
+./qwen --timeout 0 'Investigate the failing tests. Fix the cause and run the relevant tests.'
+./qwen 'Explain this project and suggest a small improvement before changing anything.'
+```
+
+You choose the project and task. The agent uses local file and terminal tools; Qwen handles inference on your Colab GPU. The examples are tasks to try, not additional benchmark results.
+
+Already have spare Colab credits? **Put them to work on the code you actually want to build.** GPU costs, runtime availability, and context limits still apply; this setup does not promise unlimited or free compute.
 
 ## Your GPU does the thinking. Your laptop does the work.
 
